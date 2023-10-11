@@ -1,6 +1,7 @@
 <?php
 
 use app\controllers\AuthController;
+use app\controllers\ProjectController;
 use app\controllers\SiteController;
 use app\core\Application;
 use app\models\User;
@@ -29,8 +30,13 @@ $app->router->get('/login', [AuthController::class, 'login']);
 $app->router->post('/login', [AuthController::class, 'login']);
 
 $app->router->get('/logout', [AuthController::class, 'logout']);
-$app->router->get('/profile', [AuthController::class, 'profile']);
+$app->router->get('/admin', [AuthController::class, 'admin']);
 
 $app->router->get('/register', [AuthController::class, 'register']);
 $app->router->post('/register', [AuthController::class, 'register']);
+
+$app->router->get('/project', [ProjectController::class, 'index']);
+$app->router->get('/admin/project', [ProjectController::class, 'project']);
+$app->router->get('/admin/upload', [ProjectController::class, 'upload']);
+$app->router->post('/admin/upload', [ProjectController::class, 'upload']);
 $app->run();

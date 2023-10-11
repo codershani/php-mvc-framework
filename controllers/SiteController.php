@@ -6,6 +6,7 @@ use app\core\Controller;
 use app\core\Request;
 use app\core\Response;
 use app\models\ContactForm;
+use app\models\Project;
 
 /**
  * Summary of SiteController
@@ -26,7 +27,7 @@ class SiteController extends Controller
             "name" => "CoderShani",
         ];
 
-        return $this->render('home', $params);
+        return $this->render('frontend/home', $params);
     }
 
     /**
@@ -40,25 +41,12 @@ class SiteController extends Controller
             $contact->loadData($request->getBody());
             if($contact->validate() && $contact->send()) {
                 Application::$app->session->setFlash('success', 'Thanks for contacting us. We\'ll be get back to you soon.');
-                return $response->redirect('/contact');
+                $response->redirect('/contact');
             }
         }
-        return $this->render('contact', [
+        return $this->render('frontend/contact', [
             'model' => $contact
         ]);
     }
 
-    // /**
-    //  * Summary of handleContact
-    //  * @return string
-    //  */
-    // public function handleContact(Request $request)
-    // {
-    //     $body = $request->getBody();
-    //     // echo '<pre>';
-    //     // var_dump($body);
-    //     // echo '</pre>';
-    //     // exit;
-    //     return "Contact Submitted Data";
-    // }
 }

@@ -24,10 +24,13 @@ use app\core\Application;
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item">
-                        <a class="nav-link" href="/">Home</a>
+                            <a class="nav-link" href="/">Home</a>
                         </li>
                         <li class="nav-item">
-                        <a class="nav-link" href="/contact">Contact Us</a>
+                            <a class="nav-link" href="/project">Projects</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/contact">Contact Us</a>
                         </li>
                     </ul>
 
@@ -43,7 +46,7 @@ use app\core\Application;
                     <?php else: ?>
                     <ul class="navbar-nav ml-auto mb-2 mb-lg-0">
                         <li class="nav-item">
-                            <a class="nav-link" href="/profile">Profile</a>
+                            <a class="nav-link" href="/admin">Dashboard</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" href="/logout">Welcome <?php echo Application::$app->user->getDisplayName() ?>, (Logout)</a>

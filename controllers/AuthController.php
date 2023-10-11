@@ -7,6 +7,7 @@ use app\core\middlewares\AuthMiddlewares;
 use app\core\Request;
 use app\core\Response;
 use app\models\LoginForm;
+use app\models\Project;
 use app\models\user;
 
 class AuthController extends Controller
@@ -14,7 +15,7 @@ class AuthController extends Controller
 
     public function __construct()
     {
-        $this->registerMiddleware(new AuthMiddlewares(['profile']));
+        $this->registerMiddleware(new AuthMiddlewares(['admin']));
     }
 
     public function login(Request $request, Response $response)
@@ -23,12 +24,12 @@ class AuthController extends Controller
         if($request->isPost()) {
             $loginForm->loadData($request->getBody());
             if($loginForm->validate() && $loginForm->login()) {
-                $response->redirect('/');
+                $response->redirect('/admin');
                 return;
             }
         }
         $this->setLayout('auth');
-        return $this->render('login', [
+        return $this->render('frontend/login', [
             'model' => $loginForm
         ]);
     }
@@ -41,7 +42,7 @@ class AuthController extends Controller
 
             if($user->validate() && $user->save()) {
                 Application::$app->session->setFlash('success', 'Thanks for registering');
-                Application::$app->response->redirect('/');
+                Application::$app->response->redirect('/admin');
             }
 
             return $this->render('register', [
@@ -49,7 +50,7 @@ class AuthController extends Controller
             ]);
         }
         $this->setLayout('auth');
-        return $this->render('register', [
+        return $this->render('frontend/register', [
             'model' => $user
         ]);
     }
@@ -60,8 +61,10 @@ class AuthController extends Controller
         $response->redirect('/');
     }
 
-    public function profile()
+    public function admin()
     {
-        return $this->render('profile');
+        $this->setLayout('admin');
+        return $this->render('admin/admin');
     }
+
 }
