@@ -7,7 +7,6 @@ use app\core\middlewares\AuthMiddlewares;
 use app\core\Request;
 use app\core\Response;
 use app\models\LoginForm;
-use app\models\Project;
 use app\models\user;
 
 class AuthController extends Controller
@@ -20,6 +19,11 @@ class AuthController extends Controller
 
     public function login(Request $request, Response $response)
     {
+
+        echo '<pre>';
+        var_dump($request->getRouteParams());
+        echo '</pre>';
+
         $loginForm = new LoginForm();
         if($request->isPost()) {
             $loginForm->loadData($request->getBody());
@@ -42,10 +46,10 @@ class AuthController extends Controller
 
             if($user->validate() && $user->save()) {
                 Application::$app->session->setFlash('success', 'Thanks for registering');
-                Application::$app->response->redirect('/admin');
+                Application::$app->response->redirect('/login');
             }
 
-            return $this->render('register', [
+            return $this->render('frontend/register', [
                 'model' => $user
             ]);
         }

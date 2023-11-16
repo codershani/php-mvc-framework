@@ -12,7 +12,7 @@ class ProjectController extends Controller
 {
     public function __construct()
     {
-        $this->registerMiddleware(new AuthMiddlewares(['project', 'upload']));
+        $this->registerMiddleware(new AuthMiddlewares(['project', 'upload', 'edit']));
     }
 
     public function index()
@@ -41,12 +41,40 @@ class ProjectController extends Controller
         $project = new Project();
         if($request->isPost()) {
             $project->loadData($request->getBody());
-            if($project->validate() && $project->create()) {
+
+            if($project->validate() && $project->save()) {
                 Application::$app->session->setFlash('success', 'Video Uploaded');
-                $response->redirect('/admin/project');
+                Application::$app->response->redirect('/admin/project');
             }
+
+            return $this->render('admin/projectUpload', [
+                'model' => $project
+            ]); 
         }
         
+        $this->setLayout('admin');
+        return $this->render('admin/projectUpload', [
+            'model' => $project
+        ]); 
+    }
+
+    public function edit(Request $request, Response $response)
+    {
+
+        $project = new Project();
+        if($request->isPost()) {
+            $project->loadData($request->getBody());
+
+            if($project->validate() && $project->update(['id' => '11'])) {
+                Application::$app->session->setFlash('success', 'Video Updated');
+                Application::$app->response->redirect('/admin/project');
+            }
+
+            return $this->render('admin/projectUpload', [
+                'model' => $project
+            ]);
+        }
+
         $this->setLayout('admin');
         return $this->render('admin/projectUpload', [
             'model' => $project

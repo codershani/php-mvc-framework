@@ -1,37 +1,62 @@
 <?php
 
 namespace app\models;
-use app\core\Model;
+use app\core\ProjectModel;
 
-class Project extends Model
+class Project extends ProjectModel
 {
-    public string $subject = '';
+    // const STATUS_INACTIVE = 0;
+    // const STATUS_ACTIVE = 1;
+    // const STATUS_DELETED = 2;
+
+    public string $title = '';
     public string $file = '';
-    public string $messageBody = '';
+    // public int $status = self::STATUS_INACTIVE;
+    public array $videos = [];
     public function rules(): array
     {
         return [
-            'subject' => [self::RULE_REQUIRED],
+            'title' => [self::RULE_REQUIRED],
             // 'file' => [self::RULE_REQUIRED],
-            // 'messageBody' => [self::RULE_REQUIRED],
         ];
     }
 
     public function labels(): array
     {
         return [
-            'subject' => 'Enter your subject',
+            'title' => 'Enter your video title',
             // 'file' => 'Upload you video',
         ];
     }
 
-    public function read()
+    public static function tableName(): string
     {
-        return "Data reading";
+        return 'projects';
+    }
+    public static function primaryKey(): string
+    {
+        return 'id';
+    }
+    public function attributes(): array
+    {
+        return ['title'];
     }
 
-    public function create()
+    public function save()
     {
-        return true;
+        // $this->status = self::STATUS_INACTIVE;
+        return parent::save();
     }
+
+    public function getDisplayVideos(): array
+    {
+        $this->videos = $this->findAll();
+        return $this->videos;
+    }
+
+    public function update($where)
+    {
+        return parent::update(['id' => '11']);
+    }
+
 }
